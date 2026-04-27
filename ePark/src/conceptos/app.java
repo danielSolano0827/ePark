@@ -61,4 +61,8 @@ public class app {
             System.out.println();
         }
     }
+    
+    public void mostrarNotificacion(String mensaje) {
+        System.out.println("NOTIFICACIÓN: " + mensaje);
+    }
 }

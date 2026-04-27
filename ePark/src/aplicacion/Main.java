@@ -12,12 +12,13 @@ package aplicacion;
  * Hecho por : Daniel Solano Cordero
  * Carne     : 2025069629
  * Hecho por : Mathias Viquez Leiva
- * Carne     :
- * 
+ * Carne     : 2025088534
  * 
  */
 
 import Enum.tipoVehiculo;
+import conceptos.GestorNotificaciones;
+import conceptos.GestorTiempo;
 import conceptos.app;
 import conceptos.comprobantes;
 import conceptos.gestorDeCobros;
@@ -25,6 +26,7 @@ import conceptos.gestorParqueo;
 import conceptos.parqueos;
 import conceptos.repositorioPagos;
 import conceptos.sensorDeParqueo;
+import conceptos.sesiones;
 import conceptos.usuarios;
 import conceptos.vehiculos;
 import java.time.LocalDate;
@@ -41,7 +43,8 @@ public class Main {
     public static void main(String[] args) {
         // TODO code application logic here
         //estacionarAuto();
-        visualizarPagos();
+        //visualizarPagos();
+        notificarProximoVencimiento();
     }
     
     public static void estacionarAuto(){
@@ -80,7 +83,37 @@ public class Main {
         parqueoTec.parquear(gestorDelParqueo, parqueoTec, usuarioPrueba);
     }
     
-    // Aquí va ir la 7.2
+    
+    // HU2
+    public static void notificarProximoVencimiento(){
+
+        app aplicacion = new app(1);
+        GestorNotificaciones notificador = new GestorNotificaciones(aplicacion);
+
+        // Crear vehículo 
+        vehiculos vehiculo = new vehiculos("ABC123", "Toyota", "Rojo", false, tipoVehiculo.AUTOMOVIL);
+
+        LocalDateTime horaInicio = LocalDateTime.now().minusDays(3).plusMinutes(4);
+
+        sesiones sesion1 = new sesiones(
+                10.0, // tarifa
+                5,    // zona
+                horaInicio,
+                vehiculo
+        );
+
+        ArrayList<sesiones> listaSesiones = new ArrayList<>();
+        listaSesiones.add(sesion1);
+
+        GestorTiempo gestorTiempo = new GestorTiempo();
+        gestorTiempo.setSesionesActivas(listaSesiones);
+        gestorTiempo.setNotificador(notificador);
+
+        System.out.println("Simulando sesión próxima a vencer...");
+        gestorTiempo.verificarSesiones();
+    }
+    
+    // HU3
     public static ArrayList<comprobantes> visualizarPagos(){
         
         usuarios usuarioPrueba1;

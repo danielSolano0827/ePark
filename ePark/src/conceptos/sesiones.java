@@ -74,4 +74,12 @@ public class sesiones {
         double totalAPagar = this.getTotalActual();
         return totalAPagar;
     }
+    
+    public Duration calcularTiempoRestante() {
+        return Duration.between(LocalDateTime.now(), fechaLimite);
+    }
+
+    public boolean estaPorVencer() {
+        return calcularTiempoRestante().toMinutes() <= 5;
+    }
 }
